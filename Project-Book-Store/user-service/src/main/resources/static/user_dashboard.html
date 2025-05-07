@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="css/daashboard.css">
+</head>
+<body>
+    <div class="navbar">
+        <h2>User Dashboard</h2>
+        <ul>
+            <li><a href="#" onclick="getAllBooks()">Books</a></li>
+            <li><a href="#" onclick="getUserProfile()">My Profile</a></li>
+			<li><a href="#" onclick="showPlaceOrderForm()">Place Order</a></li>
+            <li><a href="#" onclick="getUserOrders()">My Orders</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h3>Data Table</h3>
+        <table id="data-table">
+            <thead id="table-head"></thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+	<div id="order-form-section" style="display:none; margin-top: 30px;">
+	    <h3>Place an Order</h3>
+	    <form id="order-form" onsubmit="placeOrder(event)">
+	        <label>Book ID: <input type="number" id="bookId" required></label><br><br>
+	        <label>Quantity: <input type="number" id="quantity" required></label><br><br>
+	        <button type="submit">Submit Order</button>
+	    </form>
+	</div>
+
+    <script src="js/user_dashboard.js"></script>
+</body>
+</html>

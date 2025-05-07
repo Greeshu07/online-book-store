@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manager Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#orders-section">Orders</a></li>
+        <li><a href="#books-section">Books</a></li>
+        <li><a href="#users-section">Users</a></li>
+        <li style="float:right;"><button onclick="logout()">Sign Out</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Orders Section -->
+    <section id="orders-section">
+      <h2>Orders</h2>
+      <button onclick="getAllOrders()">Get All Orders</button>
+      <table id="orders-table" border="1"></table>
+    </section>
+
+    <!-- Books Section -->
+    <section id="books-section">
+      <h2>Books</h2>
+
+      <div class="actions">
+        <button onclick="getAllBooks()">Get All Books</button>
+        <button onclick="showAddForm()">Add Book</button>
+        <button onclick="showUpdateForm()">Update Book</button>
+        <button onclick="showSearchForm()">Fetch by Field</button>
+      </div>
+
+      <div id="book-form" class="form hidden">
+        <h3>Add/Update Book</h3>
+        <input type="number" id="book-id" placeholder="Book ID (for update)">
+        <input type="text" id="book-title" placeholder="Title">
+        <input type="text" id="book-author" placeholder="Author">
+        <input type="number" id="book-price" placeholder="Price">
+        <input type="number" id="book-stock" placeholder="Stock">
+        <button onclick="submitBook()">Submit</button>
+      </div>
+	  
+	  <!-- Patch Book Form -->
+	       <div id="patch-book-form" class="form">
+	         <h3>Update Book Fields</h3>
+	         <input type="number" id="patch-id" placeholder="Book ID" />
+	         <input type="text" id="patch-title" placeholder="Title (optional)" />
+	         <input type="text" id="patch-author" placeholder="Author (optional)" />
+	         <input type="number" id="patch-price" placeholder="Price (optional)" />
+	         <input type="number" id="patch-stock" placeholder="Stock (optional)" />
+	         <button onclick="patchBook()">Update Book</button>
+	       </div>
+
+      <div id="search-form" class="form hidden">
+        <h3>Fetch Book by Field</h3>
+        <input type="number" id="search-id" placeholder="Book ID">
+        <button onclick="fetchBookById()">Search</button>
+      </div>
+
+      <div id="book-response"></div>
+      <table id="books-table" border="1"></table>
+    </section>
+
+    <!-- Users Section -->
+    <section id="users-section">
+      <h2>Users</h2>
+      <button onclick="getAllUsers()">Get All Users</button>
+      <table id="users-table" border="1"></table>
+    </section>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

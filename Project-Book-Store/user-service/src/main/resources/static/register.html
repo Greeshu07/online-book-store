@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Register</h2>
+        <form onsubmit="registerUser(event)">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="register-msg"></p>
+        <p>Already registered? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script src="js/register.js"></script>
+</body>
+</html>
