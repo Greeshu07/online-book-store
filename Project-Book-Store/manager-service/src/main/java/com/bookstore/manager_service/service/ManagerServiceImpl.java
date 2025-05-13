@@ -73,6 +73,7 @@ public class ManagerServiceImpl implements ManagerService {
             "http://localhost:8082/users", // Replace with user service URL
             HttpMethod.GET,
             null,
+            
             new ParameterizedTypeReference<List<UserDTO>>() {});
         return response.getBody();
     }
