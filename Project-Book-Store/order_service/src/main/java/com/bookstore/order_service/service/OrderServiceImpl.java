@@ -6,6 +6,7 @@ import com.bookstore.order_service.dto.BookDTO;
 import com.bookstore.order_service.model.Order;
 import com.bookstore.order_service.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,14 +20,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
     
-    
     @Autowired
     private RestTemplate restTemplate;
+    
+    @Value("${book.service.url}")
+    private String bookServiceUrl;
+    
     @Override
     public Order placeOrder(Order order) {
         // Fetch book info from Book Service
         BookDTO book = restTemplate.getForObject(
-            "http://localhost:8083/books/" + order.getBookId(),
+            bookServiceUrl + "/books/" + order.getBookId(),
             BookDTO.class
         );
          

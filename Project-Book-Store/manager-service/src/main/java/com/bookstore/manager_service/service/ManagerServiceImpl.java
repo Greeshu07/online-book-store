@@ -10,6 +10,7 @@ import com.bookstore.manager_service.dto.UserDTO;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +25,14 @@ public class ManagerServiceImpl implements ManagerService {
 	 private final RestTemplate restTemplate;
 	    
 	    // Hardcoded Book Service URL
-	    private final String bookServiceUrl = "http://localhost:8083";
+	 	@Value("${book.service.url}")
+	    private String bookServiceUrl;
+	    
+	    @Value("${order.service.url}")
+	    private String orderServiceUrl;
+	    
+	    @Value("${user.service.url")
+	    private String userServiceUrl;
 
 	    public ManagerServiceImpl(RestTemplate restTemplate) {
 	        this.restTemplate = restTemplate;
@@ -70,7 +78,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<UserDTO> getAllUsers() {
         ResponseEntity<List<UserDTO>> response = restTemplate.exchange(
-            "http://localhost:8082/users", // Replace with user service URL
+            userServiceUrl+"/users", // Replace with user service URL
             HttpMethod.GET,
             null,
             
@@ -81,7 +89,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<OrderDTO> getAllOrders() {
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(
-            "http://localhost:8086/orders", // Replace with order service URL
+            orderServiceUrl+"/orders", // Replace with order service URL
             HttpMethod.GET,
             null,
             new ParameterizedTypeReference<List<OrderDTO>>() {});

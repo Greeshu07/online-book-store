@@ -6,6 +6,7 @@ import com.bookstore.user_service.dto.OrderDTO;
 import com.bookstore.user_service.model.User;
 import com.bookstore.user_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,12 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private RestTemplate restTemplate;
-
+    
+    @Value("${book.service.url}")
+    private String bookServiceUrl;
+    
+    @Value("${order.service.url}")
+    private String orderServiceUrl;
 
     // Create/Register a new user
     @Override
@@ -58,15 +64,14 @@ public class UserServiceImpl implements UserService {
     // Place The Oder
     @Override
 	public OrderDTO placeOrder(OrderDTO orderDTO)  {
-		return restTemplate.postForObject("http://localhost:8086/orders", orderDTO, OrderDTO.class);
+		return restTemplate.postForObject(orderServiceUrl + "/orders", orderDTO, OrderDTO.class);
     	
     }
     
     //Get the User Orders
     public List<OrderDTO> getOrdersByUserId(Long userId) {
-        String orderServiceUrl = "http://localhost:8086/orders/user/" + userId;
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(
-            orderServiceUrl,
+        	orderServiceUrl+"/orders/user/" + userId,
             HttpMethod.GET,
             null,
             new ParameterizedTypeReference<List<OrderDTO>>() {}
@@ -80,7 +85,7 @@ public class UserServiceImpl implements UserService {
     public List<BookDTO> getAllBooks() {
         // Make GET request to Book Service to get all books
         ResponseEntity<List<BookDTO>> response = restTemplate.exchange(
-        		"http://localhost:8083/books",
+        		bookServiceUrl+"/books",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<BookDTO>>() {}

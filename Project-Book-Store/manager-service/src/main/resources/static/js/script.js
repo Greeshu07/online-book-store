@@ -2,7 +2,7 @@ function register() {
   const username = document.getElementById("reg-username").value;
   const password = document.getElementById("reg-password").value;
 
-  fetch("/manager/register", {
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password })
@@ -20,19 +20,16 @@ function login() {
   const username = document.getElementById("login-username").value;
   const password = document.getElementById("login-password").value;
 
-  // Send POST request to the backend
-  fetch("/manager/login", {
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: username, password: password })
+    body: JSON.stringify({ username, password })
   })
   .then(response => response.text())
   .then(result => {
     if (result === "Login Successful") {
-      // Redirect to dashboard on success
       window.location.href = "dashboard.html";
     } else {
-      // Show error message
       document.getElementById("login-response").innerText = "Invalid username or password.";
     }
   })
@@ -41,5 +38,3 @@ function login() {
     document.getElementById("login-response").innerText = "Something went wrong.";
   });
 }
-
-

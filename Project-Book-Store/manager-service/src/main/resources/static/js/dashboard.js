@@ -1,16 +1,13 @@
 // ----------------- BOOK FUNCTIONS -----------------
 
-// Fetch and display all books
 function getAllBooks() {
-  fetch("http://localhost:8084/manager/books") // Backend URL
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/books`)
     .then(response => response.json())
     .then(data => displayTable(data, "books-table"))
     .catch(error => alert("Error fetching books: " + error));
 }
 
-// Add a new book
 function addBook() {
-  // Collect data from input fields
   const book = {
     title: document.getElementById("book-title").value,
     author: document.getElementById("book-author").value,
@@ -18,11 +15,9 @@ function addBook() {
     stock: parseInt(document.getElementById("book-stock").value)
   };
 
-  fetch("http://localhost:8084/manager/books", {
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/books`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(book)
   })
     .then(response => response.json())
@@ -30,7 +25,6 @@ function addBook() {
     .catch(error => alert("Error adding book: " + error));
 }
 
-// Update a book by ID
 function updateBook() {
   const bookId = document.getElementById("book-id").value;
 
@@ -41,18 +35,15 @@ function updateBook() {
     stock: parseInt(document.getElementById("book-stock").value)
   };
 
-  fetch(`http://localhost:8084/manager/books/${bookId}`, {
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/books/${bookId}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(book)
   })
     .then(response => response.json())
     .then(data => alert("Book updated successfully!"))
     .catch(error => alert("Error updating book: " + error));
 }
-//Patch By Feild
 
 function patchBook() {
   const id = document.getElementById("patch-id").value;
@@ -63,7 +54,7 @@ function patchBook() {
     stock: document.getElementById("patch-stock").value || null
   };
 
-  fetch(`/manager/books/${id}`, {
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/books/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(book)
@@ -79,12 +70,10 @@ function patchBook() {
     .catch(() => alert("Error updating book"));
 }
 
-
 // ----------------- USER FUNCTIONS -----------------
 
-// Fetch and display all users
 function getAllUsers() {
-  fetch("http://localhost:8084/manager/users")
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/users`)
     .then(response => response.json())
     .then(data => displayTable(data, "users-table"))
     .catch(error => alert("Error fetching users: " + error));
@@ -92,9 +81,8 @@ function getAllUsers() {
 
 // ----------------- ORDER FUNCTIONS -----------------
 
-// Fetch and display all orders
 function getAllOrders() {
-  fetch("http://localhost:8084/manager/orders")
+  fetch(`${CONFIG.MANAGER_SERVICE_URL}/manager/orders`)
     .then(response => response.json())
     .then(data => displayTable(data, "orders-table"))
     .catch(error => alert("Error fetching orders: " + error));
@@ -102,18 +90,15 @@ function getAllOrders() {
 
 // ----------------- HELPER FUNCTION -----------------
 
-// Display any data in a table (reusable for books, users, orders)
 function displayTable(dataList, tableId) {
   const table = document.getElementById(tableId);
-  table.innerHTML = ""; // Clear old data
+  table.innerHTML = "";
 
-  // If list is empty
   if (dataList.length === 0) {
     table.innerHTML = "<tr><td colspan='100%'>No data found</td></tr>";
     return;
   }
 
-  // Create header row
   const headers = Object.keys(dataList[0]);
   const headerRow = document.createElement("tr");
 
@@ -125,7 +110,6 @@ function displayTable(dataList, tableId) {
 
   table.appendChild(headerRow);
 
-  // Create data rows
   dataList.forEach(item => {
     const row = document.createElement("tr");
     headers.forEach(key => {
@@ -139,11 +123,11 @@ function displayTable(dataList, tableId) {
 
 // ----------------- LOGOUT -----------------
 
-// Redirect to login page
 function logout() {
   window.location.href = "login.html";
 }
 
+// ----------------- FORM VISIBILITY -----------------
 
 function showAddForm() {
   document.getElementById("book-form").classList.remove("hidden");
@@ -160,7 +144,8 @@ function showSearchForm() {
   document.getElementById("book-form").classList.add("hidden");
 }
 
-// Add this to submit the book (Add or Update based on book-id)
+// ----------------- ADD/UPDATE SUBMIT LOGIC -----------------
+
 function submitBook() {
   const bookId = document.getElementById("book-id").value;
   if (bookId === "") {

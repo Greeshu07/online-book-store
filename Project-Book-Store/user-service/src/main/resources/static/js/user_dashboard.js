@@ -3,7 +3,7 @@ const username = localStorage.getItem("username");
 
 // Fetch all books
 function getAllBooks() {
-    fetch("http://localhost:8082/users/books")
+    fetch(`${CONFIG.USER_SERVICE_URL}/users/books`)
         .then(response => response.json())
         .then(data => displayTable(data, "Book"))
         .catch(error => alert("Failed to fetch books: " + error));
@@ -11,7 +11,7 @@ function getAllBooks() {
 
 // Fetch user profile by username
 function getUserProfile() {
-    fetch(`http://localhost:8082/users/${username}`)
+    fetch(`${CONFIG.USER_SERVICE_URL}/users/${username}`)
         .then(response => response.json())
         .then(data => displaySingle(data, "User Profile"))
         .catch(error => alert("Failed to fetch user profile: " + error));
@@ -19,17 +19,17 @@ function getUserProfile() {
 
 // Fetch orders using userId from user profile
 function getUserOrders() {
-    fetch(`http://localhost:8082/users/${username}`)
+    fetch(`${CONFIG.USER_SERVICE_URL}/users/${username}`)
         .then(response => response.json())
         .then(user => {
             const userId = user.id;
-            return fetch(`http://localhost:8082/users/${userId}/orders`);
+            return fetch(`${CONFIG.USER_SERVICE_URL}/users/${userId}/orders`);
         })
         .then(response => response.json())
         .then(orderData => displayTable(orderData, "Order"))
         .catch(error => {
             alert("Failed to fetch user orders: " + error);
-        }); // ✅ This closing brace was missing
+        });
 }
 
 // Show the order form
@@ -45,7 +45,7 @@ function placeOrder(event) {
     const bookId = document.getElementById("bookId").value;
     const quantity = document.getElementById("quantity").value;
 
-    fetch(`http://localhost:8082/users/${username}`)
+    fetch(`${CONFIG.USER_SERVICE_URL}/users/${username}`)
         .then(response => response.json())
         .then(user => {
             const orderData = {
@@ -54,7 +54,7 @@ function placeOrder(event) {
                 quantity: parseInt(quantity)
             };
 
-            return fetch(`http://localhost:8082/users/${user.id}/order`, {
+            return fetch(`${CONFIG.USER_SERVICE_URL}/users/${user.id}/order`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(orderData)
@@ -73,7 +73,6 @@ function placeOrder(event) {
             alert("Failed to place order: " + error.message);
         });
 }
-
 
 // Logout function
 function logout() {
@@ -141,5 +140,4 @@ function displaySingle(data, title) {
 }
 
 // Initial load
-
 getAllBooks();

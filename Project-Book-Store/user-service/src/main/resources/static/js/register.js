@@ -7,7 +7,7 @@ function registerUser(event) {
         password: document.getElementById("password").value
     };
 
-    fetch("http://localhost:8082/users/register", {
+    fetch(`${CONFIG.USER_SERVICE_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
