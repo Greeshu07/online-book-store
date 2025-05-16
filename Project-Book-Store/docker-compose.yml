@@ -1,77 +1,62 @@
 version: '3.8'
 
 services:
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookstore
+    ports:
+      - "3306:3306"
+
   user_service:
     build:
       context: ./user_service
+    container_name: user_service
     ports:
       - "8082:8082"
     depends_on:
-      - user-db
+      - mysql-db
+      - order_service
+      - book_service
     env_file:
       - .env
-    environment:
-      DB_URL: jdbc:mysql://user-db:3306/userdb
-
-  user-db:
-    image: mysql:8.0
-    restart: always
-    environment:
-      MYSQL_DATABASE: userdb
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "3307:3306"
 
   book_service:
     build:
       context: ./book_service
+    container_name: book_service
     ports:
       - "8083:8083"
     depends_on:
-      - book-db
+      - mysql-db
     env_file:
       - .env
-    environment:
-      DB_URL: jdbc:mysql://book-db:3306/bookstore_db
-
-  book-db:
-    image: mysql:8.0
-    restart: always
-    environment:
-      MYSQL_DATABASE: bookstore_db
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "3308:3306"
 
   order_service:
     build:
       context: ./order_service
+    container_name: order_service
     ports:
       - "8086:8086"
     depends_on:
-      - order-db
+      - mysql-db
       - user_service
       - book_service
     env_file:
       - .env
-    environment:
-      DB_URL: jdbc:mysql://order-db:3306/orderdb
-
-  order-db:
-    image: mysql:8.0
-    restart: always
-    environment:
-      MYSQL_DATABASE: orderdb
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "3309:3306"
 
   manager_service:
     build:
       context: ./manager_service
+    container_name: manager_service
     ports:
       - "8084:8084"
     depends_on:
+      - mysql-db
       - user_service
       - order_service
       - book_service
