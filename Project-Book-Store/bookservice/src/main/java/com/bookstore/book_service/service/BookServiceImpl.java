@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-
+    @Autowired
     private final BookRepository bookRepository;
 
     @Override
