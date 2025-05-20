@@ -36,3 +36,4 @@ Endpoint	Method	Description
 /manager/orders/{id}	PATCH	Update order status (approve/cancel)		
 /manager/users	GET	View all users		
 ![image](https://github.com/user-attachments/assets/0b640902-d7d5-4af1-ad43-98af1a1044b5)
+![Microservices Flowchart for Online Bookstore](https://github.com/user-attachments/assets/d2043358-7a8b-45ed-842b-954001d10c92)
